@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<h1>Imoort Rent</h1>
+<br/>
+<br/>
+
+{% if month  %}
+	month: {{ month  }}<br/>
+	count: {{ count  }}<br/>
+	데이터를 가져왔습니다.
+{% endif %}
+
+{% endblock %}

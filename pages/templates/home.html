@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<h1>목감지구 아파트</h1>
+<br/>
+<br/>
+
+<h2>매매 데이터</h2>
+<form action="{% url 'import_trade' %}" class="form-inline my-2 my-lg-0" method="POST">
+	{% csrf_token %}
+	<input class="form-control mr-sm-2" type="search" placeholder="YYYYMM" aria-label="Search" name="month">
+	<button class="btn btn-outline-secondary my-2 my-sm-0" type="submit">Import Trade</button>
+</form>
+
+<form action="{% url 'delete_trade' %}" class="form-inline my-2 my-lg-0" method="POST">
+	{% csrf_token %}
+	<input class="form-control mr-sm-2" type="search" placeholder="YYYYMM" aria-label="Search" name="month">
+	<button class="btn btn-outline-secondary my-2 my-sm-0" type="submit">Delete Trade</button>
+</form>
+
+<h2>전월세 데이터</h2>
+<form action="{% url 'import_rent' %}" class="form-inline my-2 my-lg-0" method="POST">
+	{% csrf_token %}
+	<input class="form-control mr-sm-2" type="search" placeholder="YYYYMM" aria-label="Search" name="month">
+	<button class="btn btn-outline-secondary my-2 my-sm-0" type="submit">Import Rent</button>
+</form>
+
+<form action="{% url 'delete_rent' %}" class="form-inline my-2 my-lg-0" method="POST">
+	{% csrf_token %}
+	<input class="form-control mr-sm-2" type="search" placeholder="YYYYMM" aria-label="Search" name="month">
+	<button class="btn btn-outline-secondary my-2 my-sm-0" type="submit">Delete Rent</button>
+</form>
+
+{% endblock %}

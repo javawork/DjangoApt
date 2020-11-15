@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<form action="{% url 'list_trade' %}" class="form-inline my-2 my-lg-0" method="POST">
+	{% csrf_token %}
+	<input class="form-control mr-sm-2" type="search" placeholder="name" aria-label="Search" name="name">
+	<input class="form-control mr-sm-2" type="search" placeholder="size" aria-label="Search" name="size">
+	<button class="btn btn-outline-secondary my-2 my-sm-0" type="submit">Search</button>
+</form>
+<br/>
+
+{% if apt_list %}
+<table class="table table-striped table-bordered table-hover">
+  <thead class="thead-dark" > 
+    <tr>
+      <th scope="col">이름</th>
+      <th scope="col">가격</th>
+      <th scope="col">전용면적</th>
+      <th scope="col">동</th>
+      <th scope="col">건축연도</th>
+      <th scope="col">층</th>
+      <th scope="col">거래일</th>
+      <th scope="col">번호</th>
+    </tr>
+  </thead>
+  <tbody>
+
+	{% for item in apt_list %}
+		<tr>
+			<th scope="row">{{ item.name }}</th>
+			<td>{{ item.price }}</td>
+			<td>{{ item.size }}</td>
+			<td>{{ item.dong }}</td>
+			<td>{{ item.built_year }}년</td>
+			<td>{{ item.floor }}층</td>
+			<td>{{ item.date|slice:"0:4" }}년{{ item.date|slice:"4:6" }}월{{ item.date|slice:"6:8" }}일</td>
+			<td>{{ forloop.counter }}</td>
+		</tr>
+	{% endfor %}
+	</tbody>
+</table>
+
+{{ api }}
+
+{% endif %}
+
+{% endblock %}

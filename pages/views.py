@@ -24,46 +24,60 @@ def home(request):
 	return render(request, 'home.html', {})
 
 
-def trade(request):
+def list_trade(request):
 	try:
 		if request.method == 'POST':
 			name = request.POST['name']
-			#all_trade = AptTrade.objects.get(name_contains=name)
+			size = request.POST['size']
+			nsize = 0
+			if len(size) != 0:
+				nsize = int(size)
 			all_trade = AptTrade.objects.all().order_by('-date')
 			param_trade = []
 			for item in all_trade:
+				cur_size = int(float(item.size))
 				if item.name[:len(name)] == name:
-					param_trade.append(item)
-			return render(request, 'trade.html', context = {'apt_list':param_trade })
+					if nsize == 0:
+						param_trade.append(item)
+					elif cur_size == nsize:
+						param_trade.append(item)
+
+			return render(request, 'list_trade.html', context = {'apt_list':param_trade })
 		else:
 			all_trade = AptTrade.objects.all().order_by('-date')
-			return render(request, 'trade.html', context = {'apt_list':all_trade })
+			return render(request, 'list_trade.html', context = {'apt_list':all_trade })
 	except Exception as e:
 		apt = "Error..."
-		return render(request, 'trade.html', {'api': apt, 'apt_list':[] })
+		return render(request, 'list_trade.html', {'api': apt, 'apt_list':[] })
 
-def rent(request):
+def list_rent(request):
 	try:
 		if request.method == 'POST':
 			name = request.POST['name']
-			#all_trade = AptTrade.objects.get(name_contains=name)
+			size = request.POST['size']
+			nsize = 0
+			if len(size) != 0:
+				nsize = int(size)
 			all_rent = AptRent.objects.all().order_by('-date')
 			param_rent = []
 			for item in all_rent:
+				cur_size = int(float(item.size))
 				if item.name[:len(name)] == name:
-					param_rent.append(item)
-			return render(request, 'rent.html', context = {'apt_list':param_rent })
+					if nsize == 0:
+						param_rent.append(item)
+					elif cur_size == nsize:
+						param_rent.append(item)
+			return render(request, 'list_rent.html', context = {'apt_list':param_rent })
 		else:
 			all_rent = AptRent.objects.all().order_by('-date')
-			return render(request, 'rent.html', context = {'apt_list':all_rent })
+			return render(request, 'list_rent.html', context = {'apt_list':all_rent })
 	except Exception as e:
 		apt = "Error..."
-		return render(request, 'rent.html', {'api': apt, 'apt_list':[] })
+		return render(request, 'list_rent.html', {'api': apt, 'apt_list':[] })
 
 def import_trade(request):
 	if request.method != 'POST':
 		return render(request, 'home.html', {})
-
 	try:
 		param_list = []
 		request_month = request.POST['month']
@@ -76,7 +90,7 @@ def import_trade(request):
 		items_list = get_items(res)
 
 		for item in items_list:
-			if item['법정동'] not in MY_DONGS:
+			if len(MY_DONGS) != 0 and item['법정동'] not in MY_DONGS:
 				continue
 			apt = AptTrade()
 			apt.name = item['아파트']
@@ -114,7 +128,7 @@ def import_rent(request):
 		items_list = get_items(res)
 
 		for item in items_list:
-			if item['법정동'] not in MY_DONGS:
+			if len(MY_DONGS) != 0 and item['법정동'] not in MY_DONGS:
 				continue
 			apt = AptRent()
 			apt.name = item['아파트']
